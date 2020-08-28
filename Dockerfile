@@ -41,6 +41,8 @@ RUN /usr/sbin/sshd-keygen
 
 RUN mkdir -p ~/.ssh/ && chmod 700 ~/.ssh/
 
+WORKDIR /home
+
 RUN git clone https://github.com/fratava/mpi_code
 
-WORKDIR /home
+WORKDIR /root
