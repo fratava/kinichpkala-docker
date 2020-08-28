@@ -9,7 +9,6 @@ RUN yum -y install wget\
                    gcc-gfortran\ 
                    make\
                    openssh\
-                   rsh\
                    openssh-server\
                    openssh-clients\
                    bind-utils\
