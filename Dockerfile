@@ -18,9 +18,14 @@ RUN yum -y install wget\
 RUN cd /tmp
 
 RUN wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.5-1.src.rpm\
-	&& rpm -ivh ./openmpi-4.0.5-1.src.rpm
+	&& rpm -ivh ./openmpi-4.0.5-1.src.rpm\
 	&& cd /root/rpmbuild/SPECS/\
 	&& rpmbuild -ba --define 'configure_options --prefix=/opt/openmpi --enable-openib-rdmacm' openmpi-4.0.5.spec
 
 RUN cd /root/rpmbuild/RPMS/x86_64/\
 	&& yum -y install openmpi-4.0.5-1.el8.x86_64.rpm
+
+RUN cd /home\
+	$$ git clone https://github.com/fratava/mpi_code
+
+RUN cd /home
