@@ -1,5 +1,7 @@
 FROM centos:latest
 
+LABEL maintaainer="Francisco Tapia <f.tapia@irya.unam.mx>"
+
 RUN yum -y install wget\
                    curl\
                    yum-utils\
@@ -24,8 +26,4 @@ RUN wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.5-1.src
 
 RUN cd /root/rpmbuild/RPMS/x86_64/\
 	&& yum -y install openmpi-4.0.5-1.el8.x86_64.rpm
-
-RUN cd /home\
-	$$ git clone https://github.com/fratava/mpi_code
-
-RUN cd /home
+	
