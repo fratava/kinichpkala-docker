@@ -1,0 +1,47 @@
+FROM ironmerchant/openmpi
+
+RUN yum -y install wget\
+                   curl\
+                   yum-utils\
+                   rpm-build\
+                   gcc\
+                   gcc-c++\
+                   gcc-gfortran\ 
+                   make\
+                   openssh\
+                   openssh-server\
+                   openssh-clients\
+                   bind-utils\
+		   git\
+		   emacs
+
+WORKDIR /tmp
+
+RUN echo "%_topdir      %(echo $HOME)/rpmbuild" > ~/.rpmmacros
+
+RUN wget https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-4.0.5-1.src.rpm\
+  && rpm -ivh ./openmpi-4.0.5-1.src.rpm\
+  && cd /root/rpmbuild/SPECS/\
+  && rpmbuild -ba --define 'configure_options --prefix=/opt/openmpi --enable-openib-rdmacm' openmpi-4.0.5.spec
+
+RUN cd /root/rpmbuild/RPMS/x86_64/\
+  && yum -y install openmpi-4.0.5-1.el7.x86_64.rpm
+
+RUN wget https://www.nas.nasa.gov/assets/npb/NPB3.3.1.tar.gz\
+  && tar xvfz NPB3.3.1.tar.gz\
+  && cd NPB3.3.1/NPB3.3-MPI\
+  && cp config/make.def.template config/make.def\
+  && sed -i 's/f77/mpif77/g' config/make.def\
+  && sed -i 's/MPICC = cc/MPICC = mpicc/g' config/make.def\
+  && make ep NPROCS=8 CLASS=A\
+  && make ep NPROCS=8 CLASS=C
+
+RUN /usr/sbin/sshd-keygen
+
+RUN mkdir -p ~/.ssh/ && chmod 700 ~/.ssh/
+
+WORKDIR /home
+
+RUN git clone https://github.com/fratava/mpi_code
+
+WORKDIR /root
