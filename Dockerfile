@@ -30,4 +30,4 @@ RUN cd /root/rpmbuild/RPMS/x86_64/\
 RUN cd /home/\
 	&& wget https://julialang-s3.julialang.org/bin/linux/x64/0.6/julia-0.6.4-linux-x86_64.tar.gz\
     	&& tar zxvf julia-0.6.4-linux-x86_64.tar.gz\
-	&& ln -s /home/julia-9d11f62bcb /bin/
+	&& ln -s /home/julia-9d11f62bcb/bin/julia /bin/
