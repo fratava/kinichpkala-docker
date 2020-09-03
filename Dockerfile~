@@ -14,9 +14,8 @@ RUN yum -y install wget\
                    openssh-server\
                    openssh-clients\
                    bind-utils\
-		   git\
-		   python3\
-		   emacs
+									 git\
+									 emacs
 
 RUN cd /tmp
 
